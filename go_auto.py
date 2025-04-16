@@ -8,6 +8,7 @@ st.set_page_config(page_title="Vehicle Popularity Finder", layout="wide")
 
 # Load data
 @st.cache_data
+
 def load_data():
     used_df = pd.read_csv("vehicle_df_with_originals (1).csv")
     new_df = pd.read_csv("vehicle_new_df_clustered (1).csv")
@@ -58,7 +59,11 @@ elif page == "🚘 Vehicle Search":
     df = used_df.copy() if dataset_choice == "Used Vehicles" else new_df.copy()
 
     st.sidebar.header("Filter Criteria")
-    year = st.sidebar.slider("Model Year", min_value=int(df.model_year.min()), max_value=int(df.model_year.max()), value=(int(df.model_year.min()), int(df.model_year.max())))
+    if df.model_year.min() == df.model_year.max():
+        year = (int(df.model_year.min()), int(df.model_year.max()) + 1)
+    else:
+        year = st.sidebar.slider("Model Year", min_value=int(df.model_year.min()), max_value=int(df.model_year.max()), value=(int(df.model_year.min()), int(df.model_year.max())))
+
     mileage = st.sidebar.slider("Mileage", min_value=int(df.mileage.min()), max_value=int(df.mileage.max()), value=(int(df.mileage.min()), int(df.mileage.max())))
     price = st.sidebar.slider("Price", min_value=int(df.price.min()), max_value=int(df.price.max()), value=(int(df.price.min()), int(df.price.max())))
     dom = st.sidebar.slider("Days on Market", min_value=int(df.days_on_market.min()), max_value=int(df.days_on_market.max()), value=(int(df.days_on_market.min()), int(df.days_on_market.max())))
@@ -80,7 +85,10 @@ elif page == "📈 Brand Insights":
     brand_df = brand_used.copy() if brand_set == "Used Vehicles" else brand_new.copy()
 
     dom = st.slider("Days on Market", min_value=int(brand_df.days_on_market.min()), max_value=int(brand_df.days_on_market.max()), value=(int(brand_df.days_on_market.min()), int(brand_df.days_on_market.max())))
-    year = st.slider("Model Year", min_value=int(brand_df.model_year.min()), max_value=int(brand_df.model_year.max()), value=(int(brand_df.model_year.min()), int(brand_df.model_year.max())))
+    if brand_df.model_year.min() == brand_df.model_year.max():
+        year = (int(brand_df.model_year.min()), int(brand_df.model_year.max()) + 1)
+    else:
+        year = st.slider("Model Year", min_value=int(brand_df.model_year.min()), max_value=int(brand_df.model_year.max()), value=(int(brand_df.model_year.min()), int(brand_df.model_year.max())))
 
     brand_filtered = brand_df[
         (brand_df['days_on_market'].between(*dom)) &
