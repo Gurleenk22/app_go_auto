@@ -36,7 +36,7 @@ if page == "🏠 Dashboard":
     - 📆 Vehicle Year
     - 📉 Days on Market
     - 🔁 Number of Price Changes
-    - ✅ Certified Status
+
 
     **Benefits:**
     - Understand what makes a car sell faster
@@ -48,7 +48,7 @@ if page == "🏠 Dashboard":
     - Mileage
     - Price
     - Days on Market
-    - Certified/Color/Price Change (preprocessed)
+   
     """)
 
 # === PAGE 2: Vehicle Search ===
