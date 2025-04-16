@@ -84,18 +84,15 @@ elif page == "📈 Brand Insights":
     brand_set = st.radio("Select Dataset", ("Used Vehicles", "New Vehicles"))
     brand_df = brand_used.copy() if brand_set == "Used Vehicles" else brand_new.copy()
 
-    dom = st.slider("Days on Market", min_value=int(brand_df.days_on_market.min()), max_value=int(brand_df.days_on_market.max()), value=(int(brand_df.days_on_market.min()), int(brand_df.days_on_market.max())))
-    if brand_df.model_year.min() == brand_df.model_year.max():
-        year = (int(brand_df.model_year.min()), int(brand_df.model_year.max()) + 1)
-    else:
-        year = st.slider("Model Year", min_value=int(brand_df.model_year.min()), max_value=int(brand_df.model_year.max()), value=(int(brand_df.model_year.min()), int(brand_df.model_year.max())))
+    dom = st.slider("Days on Market", int(brand_df.days_on_market.min()), int(brand_df.days_on_market.max()), (0, 40))
+    year = st.slider("Model Year", int(brand_df.model_year.min()), int(brand_df.model_year.max()), (2020, 2024))
 
     brand_filtered = brand_df[
         (brand_df['days_on_market'].between(*dom)) &
         (brand_df['model_year'].between(*year))
     ]
 
-    st.write("Brands with fast turnover (lower days_on_market = more popular):")
+    st.write("Brands with fast turnover (lower days_on_market are more popular):")
     st.dataframe(brand_filtered[['original_make', 'days_on_market', 'model_year', 'price', 'mileage', 'brand_cluster']].sort_values(by='days_on_market'))
 
 # === PAGE 4: Cluster PCA Visuals ===
